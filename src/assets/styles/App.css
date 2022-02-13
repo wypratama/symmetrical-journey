@@ -1,7 +1,22 @@
-.App {
-  text-align: center;
+.App::-webkit-scrollbar {
+  /* text-align: center; */
+  width: 1px;
+  height: 1px;
+}
+.App::-webkit-scrollbar-button {
+  /* text-align: center; */
+  width: 1px;
+  height: 1px;
+}
+/* ::-webkit-scrollbar {
+  width: 1px;
+  height: 1px;
 }
 
+::-webkit-scrollbar-button {
+  width: 1px;
+  height: 1px;
+} */
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -24,9 +39,9 @@
   color: white;
 }
 
-.App-link {
+/* .App-link {
   color: #61dafb;
-}
+} */
 
 @keyframes App-logo-spin {
   from {
