@@ -5,12 +5,14 @@ import getImage from '../utils/getImage';
 import { ReactComponent as Clock } from '../assets/img/clock.svg';
 import { ReactComponent as Star } from '../assets/img/star.svg';
 import { ReactComponent as Heart } from '../assets/img/heart.svg';
+import { ReactComponent as HeartFilled } from '../assets/img/heart-filled.svg';
 import useWatchList from '../hooks/useWatchList';
 
 const Detail = styled.div`
     padding: 24px;
     & > p {
       font-size: 14px;
+      text-align: justify;
     }
   `,
   InfoTop = styled.div`
@@ -69,7 +71,7 @@ const Detail = styled.div`
 function MovieDetail() {
   const { id } = useParams(),
     movieId = id as string,
-    { data, loading, error, setRefresh } = useFetchDetail(movieId),
+    { data, loading, error } = useFetchDetail(movieId),
     { watchList, removeFromWatchList, addToWatchList, inWatchList } =
       useWatchList(),
     Hero = styled.div`
@@ -106,8 +108,8 @@ function MovieDetail() {
                 : addToWatchList(data);
             }}
           >
-            <Heart fill='#DD0C25' />
-            {inWatchList(data.id) ? 'Remove from ' : 'Add to '}
+            {inWatchList(data.id) ? <HeartFilled /> : <Heart />}
+            {inWatchList(data.id) ? 'Added to ' : 'Add to '}
             Watchlist
           </WishButton>
         </InfoTop>

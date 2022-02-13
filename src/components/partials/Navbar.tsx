@@ -11,7 +11,8 @@ import { ReactComponent as HomeActive } from '../../assets/img/home-active.svg';
 import { ReactComponent as Playlogo } from '../../assets/img/play-basic.svg';
 import { ReactComponent as PlayActive } from '../../assets/img/play.svg';
 import { ReactComponent as Accountlogo } from '../../assets/img/account-basic.svg';
-import { ReactChild, ReactPortal } from 'react';
+import { ReactComponent as AccountActive } from '../../assets/img/account-active.svg';
+import { ReactChild } from 'react';
 
 const Nav = styled.nav`
   width: 100%;
@@ -52,9 +53,9 @@ function Navbar() {
         <Playlogo />
         <PlayActive />
       </CustomLink>
-      <CustomLink to='/account'>
+      <CustomLink to='/watchlist'>
         <Accountlogo />
-        <Accountlogo />
+        <AccountActive />
       </CustomLink>
     </Nav>
   );

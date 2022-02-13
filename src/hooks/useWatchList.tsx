@@ -1,19 +1,28 @@
 import { useCallback, useEffect, useState } from 'react';
 import { IMovieDetail } from '../utils/types';
 
-function useWatchList(): any {
+function useWatchList() {
   const [watchList, setWatchList] = useState<Array<IMovieDetail> | []>([]),
     [load, setLoad] = useState(false),
     reload = useCallback(() => setLoad(true), []),
-    addToWatchList = useCallback((movie: IMovieDetail) => {
-      setWatchList([...watchList, movie]);
-      localStorage.setItem('watchlist', JSON.stringify([...watchList, movie]));
-    }, []),
-    removeFromWatchList = useCallback((movie: IMovieDetail) => {
-      const newList = watchList.filter((item) => item.id !== movie.id);
-      setWatchList(newList);
-      localStorage.setItem('watchlist', JSON.stringify(newList));
-    }, []),
+    addToWatchList = useCallback(
+      (movie: IMovieDetail) => {
+        setWatchList([...watchList, movie]);
+        localStorage.setItem(
+          'watchlist',
+          JSON.stringify([...watchList, movie])
+        );
+      },
+      [watchList]
+    ),
+    removeFromWatchList = useCallback(
+      (movie: IMovieDetail) => {
+        const newList = watchList.filter((item) => item.id !== movie.id);
+        setWatchList(newList);
+        localStorage.setItem('watchlist', JSON.stringify(newList));
+      },
+      [watchList]
+    ),
     inWatchList = useCallback(
       (movieId: number) => {
         return watchList.some((item) => item.id === movieId);
