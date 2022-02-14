@@ -49,10 +49,10 @@ function Navbar() {
         <Homelogo />
         <HomeActive />
       </CustomLink>
-      <CustomLink to='/detail'>
+      {/* <CustomLink to='/detail'>
         <Playlogo />
         <PlayActive />
-      </CustomLink>
+      </CustomLink> */}
       <CustomLink to='/watchlist'>
         <Accountlogo />
         <AccountActive />

@@ -1,5 +1,7 @@
+/** @jsxImportSource @emotion/react */
+import { css, jsx } from '@emotion/react';
 import styled from '@emotion/styled';
-import { RefObject, useEffect } from 'react';
+import { RefObject, useCallback, useEffect, useState } from 'react';
 import {
   Searchbar,
   Card,
@@ -9,6 +11,7 @@ import {
 import { useStateContext } from '../hooks/useStore';
 import useInfiniteScroll from '../hooks/useInfiniteScroll';
 import useFetchMovies from '../hooks/useFetchMovies';
+import { IlistToDisplay, IMovie } from '../utils/types';
 
 // const SubNav = styled.nav`
 //   width: 100%;
@@ -83,6 +86,18 @@ function Home() {
   const {
       state: { movies, moviePageInfo },
     } = useStateContext(),
+    [search, setSearch] = useState(''),
+    [searchResult, setSearchResult] = useState<IMovie[]>([]),
+    [listToDisplay, setListToDisplay] = useState<IlistToDisplay>({
+      type: 'movies',
+    }),
+    typeDisplay = useCallback(() => {
+      const type = {
+        movies,
+        search: searchResult,
+      };
+      return type[listToDisplay.type] || type.movies;
+    }, [movies, search, listToDisplay.type]),
     options = {
       root: null,
       rootMargin: '0px 0px 100px 0px',
@@ -96,24 +111,53 @@ function Home() {
       fetchMovie();
     }
   }, [isLast]);
-  console.log(movies, 'dari homepage');
   return (
     <Container id='scrollArea'>
       <h2>Find Movies, Tv series, and more..</h2>
-      <Searchbar />
-      <SubNav>
-        <ul>
-          <li>Movie</li>
-          <li>TV Series</li>
-          <li>Documentary</li>
-          <li>Action</li>
-          <li>Sci-Fi</li>
-          <li>Adventure</li>
-        </ul>
-      </SubNav>
+      <Searchbar
+        setSearch={setSearch}
+        search={search}
+        setSearchResult={setSearchResult}
+        setListToDisplay={setListToDisplay}
+      />
+      {searchResult.length ? (
+        <div
+          css={css`
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            margin: 0;
+            padding: 24px 0;
+          `}
+        >
+          <h4>Search result:</h4>
+          <span
+            onClick={() => {
+              setSearchResult([]);
+              setSearch('');
+              setListToDisplay({ type: 'movies' });
+            }}
+          >
+            clear search
+          </span>
+        </div>
+      ) : (
+        <SubNav>
+          <ul>
+            <li>Movie</li>
+            <li>TV Series</li>
+            <li>Documentary</li>
+            <li>Action</li>
+            <li>Sci-Fi</li>
+            <li>Adventure</li>
+          </ul>
+        </SubNav>
+      )}
       <CardContainer>
-        {movies.length &&
-          movies.map((movie: any, i: number) => (
+        {typeDisplay() ? (
+          typeDisplay().map((movie: any, i: number) => (
             <Card
               key={movie.id}
               movie={movie}
@@ -123,9 +167,11 @@ function Home() {
                   : undefined
               }
             />
-          ))}
+          ))
+        ) : (
+          <h1 style={{ textAlign: 'center' }}>...</h1>
+        )}
       </CardContainer>
-      <h1>Loading</h1>
     </Container>
   );
 }

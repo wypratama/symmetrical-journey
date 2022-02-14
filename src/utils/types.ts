@@ -69,3 +69,7 @@ export interface APIResponse {
   total_pages: number;
   total_results: number;
 }
+
+export interface IlistToDisplay {
+  type: 'movies' | 'search';
+}
