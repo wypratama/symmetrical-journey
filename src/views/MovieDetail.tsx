@@ -66,6 +66,12 @@ const Detail = styled.div`
     margin-left: auto;
     padding: 8px 16px;
     border-radius: 20px;
+  `,
+  AdditionalDetail = styled.div`
+    display: grid;
+    font-size: 12px;
+    grid-template-columns: 1fr 1fr;
+    row-gap: 3px;
   `;
 
 function MovieDetail() {
@@ -86,7 +92,7 @@ function MovieDetail() {
 
   if (loading) return <div>Loading...</div>;
   if (!data || error) return <div>No Data</div>;
-  console.log(inWatchList(data.id), watchList);
+  console.log(data);
   return (
     <div style={{ marginBottom: '75px' }}>
       <Hero />
@@ -125,6 +131,25 @@ function MovieDetail() {
         </InfoBottom>
         <h4>Synopsis</h4>
         <p>{data.overview}</p>
+        <h4 style={{ marginTop: '16px' }}>Movie Detail</h4>
+        <AdditionalDetail>
+          <span>Title</span>
+          <span>{data.title}</span>
+          <span>Original Title</span>
+          <span>{data.original_title}</span>
+          <span>Tagline</span>
+          <span>{data.tagline}</span>
+          <span>Budget</span>
+          <span>{data.budget}</span>
+          <span>Revenue</span>
+          <span>{data.revenue}</span>
+          <span>Status</span>
+          <span>{data.status}</span>
+          <span>Original Language</span>
+          <span>{data.original_language} </span>
+          <span>Homepage</span>
+          <span>{data.homepage}</span>
+        </AdditionalDetail>
       </Detail>
     </div>
   );
