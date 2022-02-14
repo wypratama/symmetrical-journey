@@ -1,10 +1,12 @@
 import styled from '@emotion/styled';
+import { RefObject } from 'react';
 import { useNavigate } from 'react-router-dom';
 import getImage from '../../../utils/getImage';
 import type { IMovie } from '../../../utils/types';
 
 type CardProps = {
   movie: IMovie;
+  reference?: RefObject<HTMLDivElement> | undefined;
 };
 
 const CardItem = styled.div`
@@ -17,13 +19,13 @@ const CardItem = styled.div`
   }
 `;
 
-function Card({ movie }: CardProps) {
+function Card({ movie, reference }: CardProps) {
   const navigate = useNavigate(),
     goto = () => {
       navigate(`/detail/${movie.id}`);
     };
   return (
-    <CardItem onClick={goto}>
+    <CardItem onClick={goto} className='card-item' ref={reference}>
       <img src={getImage(movie.poster_path)} alt={movie.title} />
       <span>
         {' '}

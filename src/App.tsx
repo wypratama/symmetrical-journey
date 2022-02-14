@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import './assets/styles/App.css';
 import { Route, Routes } from 'react-router-dom';
 import { Home, MovieDetail, Watchlist } from './views';
@@ -6,10 +6,14 @@ import { Navbar } from './components/partials';
 import useFetchMovies from './hooks/useFetchMovies';
 
 function App() {
-  const fetchMovie = useFetchMovies();
+  const [mount, setMount] = useState(false),
+    fetchMovie = useFetchMovies();
   useEffect(() => {
-    fetchMovie();
-  }, []);
+    if (!mount) {
+      setMount(true);
+      fetchMovie();
+    }
+  }, [mount, fetchMovie]);
   return (
     <div className='App'>
       <Routes>

@@ -19,9 +19,10 @@ export function fetchMovie(payload: APIResponse) {
 export function reducer(state = initialState, action: any) {
   switch (action.type) {
     case 'FETCH_MOVIE':
+      // console.log([...state.movies, ...action.payload.results], 'dari store');
       return {
         ...state,
-        movies: action.payload.results,
+        movies: [...state.movies, ...action.payload.results],
         moviePageInfo: action.payload.page,
       };
     default:

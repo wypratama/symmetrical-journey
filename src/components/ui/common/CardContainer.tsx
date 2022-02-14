@@ -18,6 +18,5 @@ const CardContainer = styled.div`
     )
   );
   gap: 20px;
-  margin-bottom: 75px;
 `;
 export default CardContainer;

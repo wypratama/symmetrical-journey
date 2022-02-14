@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { RefObject, useEffect } from 'react';
 import {
   Searchbar,
   Card,
@@ -6,6 +7,8 @@ import {
   Container,
 } from '../components/ui/common';
 import { useStateContext } from '../hooks/useStore';
+import useInfiniteScroll from '../hooks/useInfiniteScroll';
+import useFetchMovies from '../hooks/useFetchMovies';
 
 // const SubNav = styled.nav`
 //   width: 100%;
@@ -76,16 +79,26 @@ const SubNav = styled.nav`
   }
 `;
 
-// margin-top: 24px;
-
 function Home() {
   const {
-    state: { movies },
-  } = useStateContext();
+      state: { movies, moviePageInfo },
+    } = useStateContext(),
+    options = {
+      root: null,
+      rootMargin: '0px 0px 100px 0px',
+      threshold: 1.0,
+    },
+    [referenced, isLast] = useInfiniteScroll(options),
+    fetchMovie = useFetchMovies({ page: moviePageInfo + 1 });
 
-  console.log(movies);
+  useEffect(() => {
+    if (isLast) {
+      fetchMovie();
+    }
+  }, [isLast]);
+  console.log(movies, 'dari homepage');
   return (
-    <Container>
+    <Container id='scrollArea'>
       <h2>Find Movies, Tv series, and more..</h2>
       <Searchbar />
       <SubNav>
@@ -99,10 +112,20 @@ function Home() {
         </ul>
       </SubNav>
       <CardContainer>
-        {movies.map((movie: any) => (
-          <Card key={movie.id} movie={movie} />
-        ))}
+        {movies.length &&
+          movies.map((movie: any, i: number) => (
+            <Card
+              key={movie.id}
+              movie={movie}
+              reference={
+                i === movies.length - 1
+                  ? (referenced as RefObject<HTMLDivElement>)
+                  : undefined
+              }
+            />
+          ))}
       </CardContainer>
+      <h1>Loading</h1>
     </Container>
   );
 }
