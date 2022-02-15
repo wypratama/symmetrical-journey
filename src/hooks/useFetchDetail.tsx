@@ -21,7 +21,7 @@ function useFetchDetail<T, D>(id: string, type: D) {
       setError(error);
       setLoading(false);
     }
-  }, [id]);
+  }, [id, type]);
 
   useEffect(() => {
     fetchData();

@@ -1,9 +1,9 @@
 import { useCallback } from 'react';
 import axios from '../utils/axios';
-import type { APIResponse, IMovie } from '../utils/types';
+import type { IMovie } from '../utils/types';
 import { fetchMovie, fetchSeries, useStateContext } from './useStore';
 
-function useFetchMovies<T>(params: any = {}, source: 'movie' | 'tv' = 'movie') {
+function useFetchMovies(params: any = {}, source: 'movie' | 'tv' = 'movie') {
   const { dispatch } = useStateContext();
 
   return useCallback(async () => {
@@ -31,6 +31,6 @@ function useFetchMovies<T>(params: any = {}, source: 'movie' | 'tv' = 'movie') {
     } catch (error) {
       console.log(error);
     }
-  }, [params, dispatch]);
+  }, [params, dispatch, source]);
 }
 export default useFetchMovies;

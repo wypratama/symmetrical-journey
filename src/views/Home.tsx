@@ -13,46 +13,6 @@ import useInfiniteScroll from '../hooks/useInfiniteScroll';
 import useFetchMovies from '../hooks/useFetchMovies';
 import { IlistToDisplay, IMovie } from '../utils/types';
 
-// const SubNav = styled.nav`
-//   width: 100%;
-//   position: relative;
-//   height: 60px;
-
-//   & > ul {
-//     &::-webkit-scrollbar {
-//       width: 1px;
-//       height: 1px;
-//     }
-
-//     &::-webkit-scrollbar-button {
-//       width: 1px;
-//       height: 1px;
-//     }
-//     position: absolute;
-//     display: block;
-//     top: 0;
-//     left: 0;
-//     width: 40px;
-//     max-height: 100vw;
-//     margin: 0;
-//     padding-top: 1px;
-//     overflow-y: auto;
-//     overflow-x: hidden;
-//     transform: rotate(-90deg) translateY(-40px);
-//     transform-origin: right top;
-//     padding: 40px 0 0 0;
-
-//     & > li {
-//       display: block;
-//       padding: 5px;
-//       transform: rotate(90deg);
-//       transform-origin: right top;
-//       width: 40px;
-//       height: 100px;
-//       margin: 10px 0;
-//     }
-//   }
-// `;
 const SubNav = styled.nav`
   width: 100%;
 
@@ -73,7 +33,7 @@ const SubNav = styled.nav`
     margin: 0;
     padding: 24px 0;
     gap: 24px;
-    overflow-x: scroll;
+    overflow-x: auto;
 
     & > li {
       font-size: 16px;
@@ -103,7 +63,7 @@ function Home() {
         search: searchResult,
       };
       return type[listToDisplay.type] || type.movies;
-    }, [movies, search, series, listToDisplay.type]),
+    }, [movies, search, series, listToDisplay.type, searchResult]),
     options = {
       root: null,
       rootMargin: '0px 0px 100px 0px',
@@ -123,7 +83,7 @@ function Home() {
     if (isLast) {
       fetchMovie();
     }
-  }, [isLast]);
+  }, [isLast, fetchMovie]);
 
   return (
     <Container id='scrollArea'>

@@ -1,15 +1,7 @@
-import {
-  Link,
-  LinkProps,
-  NavLink,
-  useMatch,
-  useResolvedPath,
-} from 'react-router-dom';
+import { Link, LinkProps, useMatch, useResolvedPath } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { ReactComponent as Homelogo } from '../../assets/img/home-basic.svg';
 import { ReactComponent as HomeActive } from '../../assets/img/home-active.svg';
-import { ReactComponent as Playlogo } from '../../assets/img/play-basic.svg';
-import { ReactComponent as PlayActive } from '../../assets/img/play.svg';
 import { ReactComponent as Accountlogo } from '../../assets/img/account-basic.svg';
 import { ReactComponent as AccountActive } from '../../assets/img/account-active.svg';
 import { ReactChild } from 'react';
@@ -49,10 +41,6 @@ function Navbar() {
         <Homelogo />
         <HomeActive />
       </CustomLink>
-      {/* <CustomLink to='/detail'>
-        <Playlogo />
-        <PlayActive />
-      </CustomLink> */}
       <CustomLink to='/watchlist'>
         <Accountlogo />
         <AccountActive />

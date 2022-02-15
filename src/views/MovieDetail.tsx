@@ -80,8 +80,7 @@ function MovieDetail() {
     location = useLocation() as ILocation,
     movieId = id as string,
     type = location.state.type,
-    { watchList, removeFromWatchList, addToWatchList, inWatchList } =
-      useWatchList();
+    { removeFromWatchList, addToWatchList, inWatchList } = useWatchList();
   type ResponseDetail<T extends typeof type> = T extends 'movie'
     ? IMovieDetail
     : ISeriesDetail;
