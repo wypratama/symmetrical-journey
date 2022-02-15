@@ -15,7 +15,6 @@ function useFetchDetail<T, D>(id: string, type: D) {
           api_key: process.env.REACT_APP_API_KEY,
         },
       });
-      console.log(data);
       setData(data);
       setLoading(false);
     } catch (error) {

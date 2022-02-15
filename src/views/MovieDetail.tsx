@@ -101,7 +101,6 @@ function MovieDetail() {
 
   if (loading) return <div>Loading...</div>;
   if (!data || error) return <div>No Data</div>;
-  console.log(data, location.state);
   if (type === 'movie') {
     const info = data as IMovieDetail;
     return (

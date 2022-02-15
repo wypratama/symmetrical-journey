@@ -30,7 +30,6 @@ export function reducer(state = initialState, action: any) {
         moviePageInfo: action.payload.page,
       };
     case 'FETCH_SERIES':
-      console.log([...state.series, ...action.payload.results]);
       return {
         ...state,
         series: [...state.series, ...action.payload.results],

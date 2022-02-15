@@ -22,7 +22,6 @@ function useFetchMovies<T>(params: any = {}, source: 'movie' | 'tv' = 'movie') {
         }));
         dispatch(fetchMovie({ ...data, results: mappedData }));
       } else {
-        console.log(data, source, 'dari useFetchMovies');
         const mappedData: IMovie[] = data.results.map((item: any) => ({
           ...item,
           type: 'tv',

@@ -125,7 +125,6 @@ function Home() {
     }
   }, [isLast]);
 
-  console.log(typeDisplay(), 'qqq');
   return (
     <Container id='scrollArea'>
       <h2>Find Movies, Tv series, and more..</h2>

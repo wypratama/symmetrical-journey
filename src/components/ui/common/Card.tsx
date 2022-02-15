@@ -20,7 +20,6 @@ const CardItem = styled.div`
 `;
 
 function Card({ movie, reference }: CardProps) {
-  console.log(movie, 'dari card');
   const navigate = useNavigate(),
     goto = () => {
       navigate(`/${movie.type}/${movie.id}`, {
