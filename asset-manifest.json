@@ -1,0 +1,24 @@
+{
+  "files": {
+    "main.css": "/symmetrical-journey/static/css/main.e9e7f7b8.css",
+    "main.js": "/symmetrical-journey/static/js/main.f885d98c.js",
+    "static/js/787.509754a3.chunk.js": "/symmetrical-journey/static/js/787.509754a3.chunk.js",
+    "static/media/account-active.svg": "/symmetrical-journey/static/media/account-active.e422b3a2f58e4e0a6ad6ae798cfda166.svg",
+    "static/media/account-basic.svg": "/symmetrical-journey/static/media/account-basic.4088ea632a66f14dcdcd2facf009d59d.svg",
+    "static/media/home-active.svg": "/symmetrical-journey/static/media/home-active.cd3d2b00c2e579b12ffcf64b4d26d5fd.svg",
+    "static/media/home-basic.svg": "/symmetrical-journey/static/media/home-basic.cfbb2597b9d9f48043f8e093f385ba2e.svg",
+    "static/media/heart.svg": "/symmetrical-journey/static/media/heart.7091c65f3c4d2fbf038fb9a95089ea50.svg",
+    "static/media/star.svg": "/symmetrical-journey/static/media/star.d75ccf7bec6c04ab0e05f534c77ffe2e.svg",
+    "static/media/search-icon.svg": "/symmetrical-journey/static/media/search-icon.57ad2c9cca42eb4499da6221667b9507.svg",
+    "static/media/heart-filled.svg": "/symmetrical-journey/static/media/heart-filled.7ee3618150c3dda5670b6c6842d80a2d.svg",
+    "index.html": "/symmetrical-journey/index.html",
+    "static/media/clock.svg": "/symmetrical-journey/static/media/clock.1076fa79ea62a42201b55eeedb048895.svg",
+    "main.e9e7f7b8.css.map": "/symmetrical-journey/static/css/main.e9e7f7b8.css.map",
+    "main.f885d98c.js.map": "/symmetrical-journey/static/js/main.f885d98c.js.map",
+    "787.509754a3.chunk.js.map": "/symmetrical-journey/static/js/787.509754a3.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e9e7f7b8.css",
+    "static/js/main.f885d98c.js"
+  ]
+}
