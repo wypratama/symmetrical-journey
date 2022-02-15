@@ -78,13 +78,18 @@ const SubNav = styled.nav`
     & > li {
       font-size: 16px;
       flex-shrink: 0;
+      &.active {
+        background: linear-gradient(244.07deg, #ff8f71 47.24%, #ef2d1a 120.34%);
+        background-clip: text;
+        color: transparent;
+      }
     }
   }
 `;
 
 function Home() {
   const {
-      state: { movies, moviePageInfo },
+      state: { movies, moviePageInfo, series },
     } = useStateContext(),
     [search, setSearch] = useState(''),
     [searchResult, setSearchResult] = useState<IMovie[]>([]),
@@ -94,23 +99,33 @@ function Home() {
     typeDisplay = useCallback(() => {
       const type = {
         movies,
+        series,
         search: searchResult,
       };
       return type[listToDisplay.type] || type.movies;
-    }, [movies, search, listToDisplay.type]),
+    }, [movies, search, series, listToDisplay.type]),
     options = {
       root: null,
       rootMargin: '0px 0px 100px 0px',
       threshold: 1.0,
     },
     [referenced, isLast] = useInfiniteScroll(options),
-    fetchMovie = useFetchMovies({ page: moviePageInfo + 1 });
+    fetchMovie = useFetchMovies({ page: moviePageInfo + 1 }),
+    atActive = useCallback(
+      (type) => {
+        if (listToDisplay.type === type) return 'active';
+        return '';
+      },
+      [listToDisplay]
+    );
 
   useEffect(() => {
     if (isLast) {
       fetchMovie();
     }
   }, [isLast]);
+
+  console.log(typeDisplay(), 'qqq');
   return (
     <Container id='scrollArea'>
       <h2>Find Movies, Tv series, and more..</h2>
@@ -146,8 +161,18 @@ function Home() {
       ) : (
         <SubNav>
           <ul>
-            <li>Movie</li>
-            <li>TV Series</li>
+            <li
+              onClick={() => setListToDisplay({ type: 'movies' })}
+              className={atActive('movies')}
+            >
+              Movie
+            </li>
+            <li
+              onClick={() => setListToDisplay({ type: 'series' })}
+              className={atActive('series')}
+            >
+              TV Series
+            </li>
             <li>Documentary</li>
             <li>Action</li>
             <li>Sci-Fi</li>

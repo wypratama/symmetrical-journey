@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import useFetchDetail from '../hooks/useFetchDetail';
 import getImage from '../utils/getImage';
 import { ReactComponent as Clock } from '../assets/img/clock.svg';
@@ -7,6 +7,7 @@ import { ReactComponent as Star } from '../assets/img/star.svg';
 import { ReactComponent as Heart } from '../assets/img/heart.svg';
 import { ReactComponent as HeartFilled } from '../assets/img/heart-filled.svg';
 import useWatchList from '../hooks/useWatchList';
+import { ILocation, IMovieDetail, ISeriesDetail } from '../utils/types';
 
 const Detail = styled.div`
     padding: 24px;
@@ -76,10 +77,18 @@ const Detail = styled.div`
 
 function MovieDetail() {
   const { id } = useParams(),
+    location = useLocation() as ILocation,
     movieId = id as string,
-    { data, loading, error } = useFetchDetail(movieId),
+    type = location.state.type,
     { watchList, removeFromWatchList, addToWatchList, inWatchList } =
-      useWatchList(),
+      useWatchList();
+  type ResponseDetail<T extends typeof type> = T extends 'movie'
+    ? IMovieDetail
+    : ISeriesDetail;
+  const { data, loading, error } = useFetchDetail<
+      ResponseDetail<typeof type>,
+      typeof type
+    >(movieId, type),
     Hero = styled.div`
       height: 40vmin;
       min-height: 287px;
@@ -92,67 +101,132 @@ function MovieDetail() {
 
   if (loading) return <div>Loading...</div>;
   if (!data || error) return <div>No Data</div>;
-  console.log(data);
-  return (
-    <div style={{ marginBottom: '75px' }}>
-      <Hero />
-      <Detail>
-        <h2>{data.title}</h2>
-        <InfoTop>
-          <div>
-            <Clock />
-            <span>{data.runtime} min</span>
-          </div>
-          <div>
-            <Star />
-            {data.vote_average}
-          </div>
-          <WishButton
-            onClick={() => {
-              inWatchList(data.id)
-                ? removeFromWatchList(data)
-                : addToWatchList(data);
-            }}
-          >
-            {inWatchList(data.id) ? <HeartFilled /> : <Heart />}
-            {inWatchList(data.id) ? 'Added to ' : 'Add to '}
-            Watchlist
-          </WishButton>
-        </InfoTop>
-        <InfoBottom>
-          <h4>Release Date</h4>
-          <span> {data.release_date} </span>
-          <h4>Genre</h4>
-          <PillGroup>
-            {data.genres.map((genre) => (
-              <span key={genre.id}>{genre.name}</span>
-            ))}
-          </PillGroup>
-        </InfoBottom>
-        <h4>Synopsis</h4>
-        <p>{data.overview}</p>
-        <h4 style={{ marginTop: '16px' }}>Movie Detail</h4>
-        <AdditionalDetail>
-          <span>Title</span>
-          <span>{data.title}</span>
-          <span>Original Title</span>
-          <span>{data.original_title}</span>
-          <span>Tagline</span>
-          <span>{data.tagline}</span>
-          <span>Budget</span>
-          <span>{data.budget}</span>
-          <span>Revenue</span>
-          <span>{data.revenue}</span>
-          <span>Status</span>
-          <span>{data.status}</span>
-          <span>Original Language</span>
-          <span>{data.original_language} </span>
-          <span>Homepage</span>
-          <span>{data.homepage}</span>
-        </AdditionalDetail>
-      </Detail>
-    </div>
-  );
+  console.log(data, location.state);
+  if (type === 'movie') {
+    const info = data as IMovieDetail;
+    return (
+      <div style={{ marginBottom: '75px' }}>
+        <Hero />
+        <Detail>
+          <h2>{info.title}</h2>
+          <InfoTop>
+            <div>
+              <Clock />
+              <span>{info.runtime} min</span>
+            </div>
+            <div>
+              <Star />
+              {info.vote_average}
+            </div>
+            <WishButton
+              onClick={() => {
+                inWatchList(info.id)
+                  ? removeFromWatchList(info)
+                  : addToWatchList(info, type);
+              }}
+            >
+              {inWatchList(info.id) ? <HeartFilled /> : <Heart />}
+              {inWatchList(info.id) ? 'Added to ' : 'Add to '}
+              Watchlist
+            </WishButton>
+          </InfoTop>
+          <InfoBottom>
+            <h4>Release Date</h4>
+            <span> {info.release_date} </span>
+            <h4>Genre</h4>
+            <PillGroup>
+              {info.genres.map((genre) => (
+                <span key={genre.id}>{genre.name}</span>
+              ))}
+            </PillGroup>
+          </InfoBottom>
+          <h4>Synopsis</h4>
+          <p>{info.overview}</p>
+          <h4 style={{ marginTop: '16px' }}>Movie Detail</h4>
+          <AdditionalDetail>
+            <span>Title</span>
+            <span>{info.title}</span>
+            <span>Original Title</span>
+            <span>{info.original_title}</span>
+            <span>Tagline</span>
+            <span>{info.tagline}</span>
+            <span>Budget</span>
+            <span>{info.budget}</span>
+            <span>Revenue</span>
+            <span>{info.revenue}</span>
+            <span>Status</span>
+            <span>{info.status}</span>
+            <span>Original Language</span>
+            <span>{info.original_language} </span>
+            <span>Homepage</span>
+            <span>{info.homepage}</span>
+          </AdditionalDetail>
+        </Detail>
+      </div>
+    );
+  } else {
+    const info = data as ISeriesDetail;
+    return (
+      <div style={{ marginBottom: '75px' }}>
+        <Hero />
+        <Detail>
+          <h2>{info.name}</h2>
+          <InfoTop>
+            <div>
+              <Clock />
+              <span>{info.episode_run_time[0]} min</span>
+            </div>
+            <div>
+              <Star />
+              {info.vote_average}
+            </div>
+            <WishButton
+              onClick={() => {
+                inWatchList(info.id)
+                  ? removeFromWatchList(info)
+                  : addToWatchList(info, type);
+              }}
+            >
+              {inWatchList(info.id) ? <HeartFilled /> : <Heart />}
+              {inWatchList(info.id) ? 'Added to ' : 'Add to '}
+              Watchlist
+            </WishButton>
+          </InfoTop>
+          <InfoBottom>
+            <h4>Release Date</h4>
+            <span> {info.first_air_date} </span>
+            <h4>Genre</h4>
+            <PillGroup>
+              {info.genres.map((genre) => (
+                <span key={genre.id}>{genre.name}</span>
+              ))}
+            </PillGroup>
+          </InfoBottom>
+          <h4>Synopsis</h4>
+          <p>{info.overview}</p>
+          <h4 style={{ marginTop: '16px' }}>Movie Detail</h4>
+          <AdditionalDetail>
+            <span>Title</span>
+            <span>{info.name}</span>
+            <span>Original Title</span>
+            <span>{info.original_name}</span>
+            <span>Tagline</span>
+            <span>{info.tagline}</span>
+            <span>Episode</span>
+            <span>{info.number_of_episodes}</span>
+            <span>Seasons</span>
+            <span>{info.number_of_seasons}</span>
+            <span>Status</span>
+            <span>{info.in_production ? 'In Production' : 'Ended'}</span>
+            <span>Original Language</span>
+            <span>{info.original_language} </span>
+            <span>Homepage</span>
+            <span>{info.homepage}</span>
+          </AdditionalDetail>
+        </Detail>
+      </div>
+    );
+  }
 }
 
 export default MovieDetail;

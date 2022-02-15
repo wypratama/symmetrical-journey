@@ -1,9 +1,8 @@
 import { useState, useCallback, useEffect } from 'react';
 import axios from '../utils/axios';
-import type { IMovieDetail } from '../utils/types';
 
-function useFetchDetail(id: string) {
-  const [data, setData] = useState<IMovieDetail | null>(null);
+function useFetchDetail<T, D>(id: string, type: D) {
+  const [data, setData] = useState<T | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<any>(null);
   const [refresh, setRefresh] = useState(false);
@@ -11,7 +10,7 @@ function useFetchDetail(id: string) {
   const fetchData = useCallback(async () => {
     try {
       setLoading(true);
-      const { data } = await axios.get<IMovieDetail>(`/movie/${id}`, {
+      const { data } = await axios.get<T>(`/${type}/${id}`, {
         params: {
           api_key: process.env.REACT_APP_API_KEY,
         },

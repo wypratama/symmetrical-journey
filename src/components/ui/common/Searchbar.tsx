@@ -42,14 +42,20 @@ function Searchbar({
   const searchByQuery = (e: any) => {
     if (e.key === 'Enter') {
       axios
-        .get('/search/movie', {
+        .get('/search/multi', {
           params: {
             query: e.target.value,
             api_key: process.env.REACT_APP_API_KEY,
           },
         })
         .then(({ data }) => {
-          setSearchResult(data.results);
+          const mapped = data.results
+            .filter(
+              (item: any) =>
+                item.media_type === 'movie' || item.media_type === 'tv'
+            )
+            .map((item: any) => ({ ...item, type: item.media_type }));
+          setSearchResult(mapped);
           setListToDisplay({ type: 'search' });
         });
     }

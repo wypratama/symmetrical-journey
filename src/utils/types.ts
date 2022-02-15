@@ -1,3 +1,6 @@
+import { Key } from 'react';
+import { Path } from 'react-router-dom';
+
 export interface IVideo {
   id: string;
 }
@@ -17,6 +20,24 @@ export interface IMovie {
   genre_ids: number[];
   video: IVideo[] | boolean;
   original_language: string;
+  type?: 'movie';
+}
+
+export interface ISeries {
+  id: number;
+  name: string;
+  overview: string;
+  poster_path: string;
+  vote_average: number;
+  vote_count: number;
+  first_air_date: string;
+  original_language: string;
+  genre_ids: number[];
+  origin_country: string[];
+  popularity: number;
+  original_name: string;
+  backdrop_path: string;
+  type?: 'tv';
 }
 
 export interface IProductionCompany {
@@ -57,19 +78,39 @@ export interface IMovieDetail extends IMovie {
   genres: IGenre[];
 }
 
+export interface ISeriesDetail extends ISeries {
+  backdrop_path: string;
+  episode_run_time: number[];
+  first_air_date: string;
+  homepage: string;
+  genres: IGenre[];
+  tagline: string;
+  number_of_episodes: number;
+  number_of_seasons: number;
+  in_production: boolean;
+}
+
 export interface InitialState {
   movies: IMovie[] | [];
   series: IMovie[] | [];
   moviePageInfo: number;
+  seriesPageInfo: number;
 }
 
-export interface APIResponse {
+export interface APIResponse<T> {
   page: number;
-  results: IMovie[];
+  results: Array<T>;
   total_pages: number;
   total_results: number;
 }
 
 export interface IlistToDisplay {
-  type: 'movies' | 'search';
+  type: 'movies' | 'search' | 'series';
+}
+
+declare function useLocation(): Location;
+
+export interface ILocation extends Path {
+  state: { type: 'movie' | 'tv' };
+  key: Key;
 }
