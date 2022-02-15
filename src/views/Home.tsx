@@ -49,7 +49,7 @@ const SubNav = styled.nav`
 
 function Home() {
   const {
-      state: { movies, moviePageInfo, series },
+      state: { movies, moviePageInfo, series, seriesPageInfo },
     } = useStateContext(),
     [search, setSearch] = useState(''),
     [searchResult, setSearchResult] = useState<IMovie[]>([]),
@@ -71,6 +71,7 @@ function Home() {
     },
     [referenced, isLast] = useInfiniteScroll(options),
     fetchMovie = useFetchMovies({ page: moviePageInfo + 1 }),
+    fetchSerie = useFetchMovies({ page: seriesPageInfo + 1 }, 'tv'),
     atActive = useCallback(
       (type) => {
         if (listToDisplay.type === type) return 'active';
@@ -80,10 +81,16 @@ function Home() {
     );
 
   useEffect(() => {
-    if (isLast) {
+    if (isLast && listToDisplay.type === 'movies') {
       fetchMovie();
     }
-  }, [isLast, fetchMovie]);
+  }, [isLast, fetchMovie, listToDisplay.type]);
+
+  useEffect(() => {
+    if (isLast && listToDisplay.type === 'series') {
+      fetchSerie();
+    }
+  }, [isLast, fetchSerie, listToDisplay.type]);
 
   return (
     <Container id='scrollArea'>
